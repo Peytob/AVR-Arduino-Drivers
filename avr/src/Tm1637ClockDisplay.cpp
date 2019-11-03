@@ -3,7 +3,7 @@
 namespace Tm1637
 {
 
-ClockDisplay::ClockDisplay(uint8_t clkPin_, uint8_t dioPin_) :
+ClockDisplay::ClockDisplay(const Portio::Pin & clkPin_, const Portio::Pin & dioPin_) :
 	DriverBase(clkPin_, dioPin_)
 {
 	clear();
