@@ -4,6 +4,8 @@
 #include "Tm1637DriverBase.hpp"
 #include "Tm1637EncodeSymbols.hpp"
 
+#define TM1637_COLON_DIGIT 1
+
 namespace Tm1637
 {
 
@@ -22,6 +24,7 @@ public:
 		{ setByte(byteArray_[0], byteArray_[1], byteArray_[2], byteArray_[3]); };
 	void setByte(uint8_t byte0_, uint8_t byte1_, uint8_t byte2_, uint8_t byte3_);
 
+	void setNumber(int16_t number_);
 	void setNumber(int16_t number);
 	void setDataHex(int16_t data_);
 
@@ -30,8 +33,6 @@ public:
 	uint8_t isColonOn() const;
 
 private:
-	const static uint8_t colonDigit = 1;
-
 	uint8_t m_displayData[4];
 };
 

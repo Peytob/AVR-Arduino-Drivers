@@ -12,7 +12,7 @@ ClockDisplay::ClockDisplay(const Portio::Pin & clkPin_, const Portio::Pin & dioP
 
 void ClockDisplay::clear()
 {
-	for (uint8_t i = 0; i < 4; ++i)
+	for (const auto & i : m_displayData)
 		m_displayData[i] = 0;
 }
 
@@ -37,7 +37,7 @@ void ClockDisplay::display()
 
 	m_startSignal();
 	m_sendByte(0xc0);
-	for (size_t i = 0; i < 4; ++i)
+	for (const auto & i : m_displayData)
 		m_sendByte(m_displayData[i]);
 	m_stopSignal();
 }
@@ -54,6 +54,11 @@ void ClockDisplay::displayDigit(uint8_t digit_)
 	m_sendByte(0xc0 + digit);
 	m_sendByte(m_displayData[digit_]);
 	m_stopSignal();
+}
+
+void ClockDisplay::setNumber(int16_t number_, uint8_t digit_)
+{
+	m_displayData[digit_] = encodeSymbol(number_);
 }
 
 void ClockDisplay::setNumber(int16_t number_)
@@ -103,20 +108,20 @@ void ClockDisplay::setDataHex(int16_t data_)
 
 void ClockDisplay::toggleColon()
 {
-	m_displayData[colonDigit] ^= 1 << 7;
+	m_displayData[TM1637_COLON_DIGIT] ^= 1 << 7;
 }
 
 void ClockDisplay::setColon(uint8_t value_)
 {
 	if (value_)
-		m_displayData[colonDigit] |= 1 << 7;
+		m_displayData[TM1637_COLON_DIGIT] |= 1 << 7;
 	else
-		m_displayData[colonDigit] &= ~(1 << 7);
+		m_displayData[TM1637_COLON_DIGIT] &= ~(1 << 7);
 }
 
 uint8_t ClockDisplay::isColonOn() const
 {
-	return m_displayData[colonDigit] & (1 << 7);
+	return m_displayData[TM1637_COLON_DIGIT] & (1 << 7);
 }
 
 }
